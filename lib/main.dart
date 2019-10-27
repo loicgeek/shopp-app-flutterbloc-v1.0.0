@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopflut_blocv1/pages/shop_page.dart';
-import 'package:shopflut_blocv1/repositories/shop_repository.dart';
+import 'package:shopflut_blocv1/pages/splash_screen.dart';
 import 'bloc/bloc.dart';
 
 void main() => runApp(MyApp());
@@ -10,7 +9,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    ShopRepository shopRepository = ShopRepository();
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -25,18 +23,9 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider<ShopBloc>(
-              builder: (context) =>
-                  ShopBloc(shopRepository: shopRepository)..add(AppStarted()),
-            ),
-            BlocProvider<FavoritesBloc>(
-              builder: (context) =>
-                  FavoritesBloc(shopRepository: shopRepository),
-            ),
-          ],
-          child: ShopPage(),
+        home: BlocProvider<AppinitialisationBloc>(
+          builder: (context) => AppinitialisationBloc()..add(AppLaunched()),
+          child: SplashPage(),
         ));
   }
 }
